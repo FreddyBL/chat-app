@@ -22,6 +22,7 @@ import LinkingConfiguration from './LinkingConfiguration';
 import {Octicons, MaterialCommunityIcons} from '@expo/vector-icons'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { TabBarItem } from 'react-native-tab-view';
+import ChatScreen from './../screens/ChatScreen';
 
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
@@ -102,7 +103,7 @@ function BottomTabNavigator() {
           tabBarLabel: () => null,
         }}
         />
-      <ScreensTab.Screen name="Chats" component={TabTwoScreen} />
+      <ScreensTab.Screen name="Chats" component={ChatScreen} />
       <ScreensTab.Screen name="Status" component={TabTwoScreen} />
       <ScreensTab.Screen name="Settings" component={TabTwoScreen} />
     </ScreensTab.Navigator>
