@@ -13,10 +13,15 @@ declare global {
   }
 }
 
+export type ChatRoomParams = {
+  id: string;
+}
+
 export type RootStackParamList = {
   Root: NavigatorScreenParams<RootTabParamList> | undefined;
   Modal: undefined;
   NotFound: undefined;
+  ChatRoomScreen: ChatRoomParams;
 };
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> = NativeStackScreenProps<
