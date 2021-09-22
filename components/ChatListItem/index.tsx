@@ -9,13 +9,12 @@ export type ChatListItemProps = {
 }
 export default function ChatListItem(props: ChatListItemProps) {
 
-    const {chatRoom} = props;
-    const user = chatRoom.users[1];
+    const user = props.chatRoom.chatRoomUsers.items[1].user;
     const navigation = useNavigation();
 
     const onChatSelected = () => {
         navigation.navigate('ChatRoomScreen', {
-            id: chatRoom.id,
+            id: props.chatRoom.id,
             name: user.name,
         });
     }
@@ -30,11 +29,11 @@ export default function ChatListItem(props: ChatListItemProps) {
             <View style={styles.contentContainer}>
                 <View style={styles.topContainer}>
                     <Text style={styles.name}>{user.name}</Text>
-                    <Text style={styles.lastMessageTime}>{chatRoom.lastMessage.createdAt}</Text>
+                    {/* <Text style={styles.lastMessageTime}>{chatRoom?.lastMessage.createdAt}</Text> */}
                 
                 </View>
                 <View style={styles.bottomContainer}>
-                    <Text numberOfLines={1} style={styles.lastMessage}>{chatRoom.lastMessage.content}</Text>
+                    {/* <Text numberOfLines={1} style={styles.lastMessage}>{chatRoom?.lastMessage.content}</Text> */}
                 </View>
             </View>
         </View>

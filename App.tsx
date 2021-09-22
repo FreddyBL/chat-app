@@ -44,7 +44,6 @@ function App() {
               name: userInfo.username,
               email: userInfo.attributes.email
             }
-            console.log(newUser);
             await API.graphql(graphqlOperation(createUser, 
             {input: newUser}
             ));

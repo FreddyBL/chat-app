@@ -5,6 +5,11 @@ import { ChatRoom } from '../../types';
 import { useNavigation } from '@react-navigation/core'
 import UserAvatar from 'react-native-user-avatar';
 import { User } from '../../types';
+
+
+import { graphqlOperation, API, Auth } from 'aws-amplify';
+import { createChatRoom, createChatRoomManager } from '../../src/graphql/mutations'
+
 export type UserListItemProps = { 
     user: User;
 }
@@ -13,8 +18,38 @@ export default function UserListItem(props: UserListItemProps) {
     const {user} = props;
     const navigation = useNavigation();
 
-    const onUserSelected = () => {
-        
+    const onUserSelected = async () => {
+        try {
+
+            // 1. Create chat Room
+            const newChatRoomData = await API.graphql(graphqlOperation(
+                createChatRoom, {input: {}}
+            ));
+            
+            console.log(newChatRoomData);
+
+            if(newChatRoomData){
+                const chatRoom = newChatRoomData.data.createChatRoom;
+                const roomId = chatRoom.id;
+                //Add user to chatRoom
+                await API.graphql(graphqlOperation(
+                    createChatRoomManager, {input: {userID: user.id, chatRoomID: roomId}}
+                ));
+                const userInfo = await Auth.currentAuthenticatedUser();
+                const currentUserID = userInfo.attributes.sub;
+                await API.graphql(graphqlOperation(
+                    createChatRoomManager, {input: {userID: currentUserID, chatRoomID: roomId}}
+                ));
+                
+                navigation.navigate('ChatRoomScreen', {
+                    id: roomId,
+                    name: "Some Name"
+                })
+
+            }
+        } catch (error) {
+            
+        }
     }
     const avatarComponent = (user.imageUri ? 
         <Image style={styles.avatar} source={{

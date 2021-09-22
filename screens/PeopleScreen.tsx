@@ -12,7 +12,6 @@ export default function PeopleScreen() {
 
     const [users, setUsers] = useState([]);
     useEffect(() => {
-        console.log("called");
         const fetchUsers = async () => {
             try{
                 const fetchedUsers = await API.graphql(graphqlOperation(
@@ -32,7 +31,6 @@ export default function PeopleScreen() {
             <FlatList 
                 data={users}
                 renderItem={({item}) => { 
-                    console.log(item);
                     return (
                     <UserListItem user={item}/>
                 )}}

@@ -1,17 +1,19 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import { StyleSheet, Text, View, FlatList } from 'react-native'
 import { useRoute } from '@react-navigation/core'
 import { cRooms } from '../dummy_data/chats'
 import ChatMessage from '../components/ChatMessage'
 import InputChatBox from './../components/InputChatBox/index';
+import { graphqlOperation, API, Auth } from 'aws-amplify';
+import { getUser } from '../queries/users'
 
 const ChatRoomScreen = () => {
 
+    const [chatRooms, setChatRooms] = useState([]);
+
     const route = useRoute();
-    console.log(route.params);
     return (
         <View style={styles.mainContainer}>
-            
         <FlatList style={styles.container}
                 data={cRooms[0].messages}
                 renderItem={({item}) => (
