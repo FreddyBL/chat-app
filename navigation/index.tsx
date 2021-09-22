@@ -26,6 +26,7 @@ import ChatScreen from './../screens/ChatScreen';
 import ChatRoomScreen from '../screens/ChatRoomScreen';
 import ChatRoomHeader from '../components/ChatRoomHeader';
 
+
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
     <NavigationContainer
