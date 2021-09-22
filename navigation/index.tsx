@@ -25,6 +25,7 @@ import { TabBarItem } from 'react-native-tab-view';
 import ChatScreen from './../screens/ChatScreen';
 import ChatRoomScreen from '../screens/ChatRoomScreen';
 import ChatRoomHeader from '../components/ChatRoomHeader';
+import PeopleScreen from '../screens/PeopleScreen';
 
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
@@ -119,8 +120,8 @@ function BottomTabNavigator() {
           tabBarLabel: () => null,
         }}
         />
-      <ScreensTab.Screen name="Chats" component={ChatScreen} />
-      <ScreensTab.Screen name="Status" component={TabTwoScreen} />
+      <ScreensTab.Screen name="Rooms" component={ChatScreen} />
+      <ScreensTab.Screen name="People" component={PeopleScreen} />
       <ScreensTab.Screen name="Settings" component={TabTwoScreen} />
     </ScreensTab.Navigator>
   );

@@ -10,7 +10,7 @@ export const cRooms = [
         {
             id: '1',
             name: 'Enrique',
-            imageUri: 'https://cdn.pixabay.com/photo/2016/03/27/17/40/man-1283231_960_720.jpg',
+            imageUri: null,
         },
     ],
     lastMessage: {
@@ -56,7 +56,7 @@ export const cRooms = [
             user: {
                 id: '1',
                 name: 'Enrique',
-                imageUri: 'https://cdn.pixabay.com/photo/2016/03/27/17/40/man-1283231_960_720.jpg',
+                imageUri: null,
             }
         },
         {
