@@ -27,7 +27,7 @@ export default function ChatScreen() {
                 setChatRooms(data.data.getUser.chatRoomManager.items);
 
             } catch (error) {
-                console.log(error);
+                
             }
         }
         fetchData();

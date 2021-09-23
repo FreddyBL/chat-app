@@ -1,14 +1,33 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { StyleSheet, Text, View, TextInput, TouchableHighlight, TouchableOpacity } from 'react-native'
 import { Icon } from 'react-native-elements'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
-const InputChatBox = () => {
+
+import { graphqlOperation, API, Auth } from 'aws-amplify';
+import { createMessage } from '../../src/graphql/mutations';
+
+
+const InputChatBox = (props) => {
+
+    
+    const {chatRoomID} = props;
 
     const [text, setText] = useState('');
+    const [currentUserID, setCurrentUserID] = useState(null);
 
     const isTextEmpty = (text.length == 0);
     const iconToShow = isTextEmpty ? "microphone" : "send";
 
+
+    useEffect( () => {
+
+        const fetchUser = async () => {
+            const userInfo = await Auth.currentAuthenticatedUser( {bypassCache: true});
+            setCurrentUserID(userInfo.attributes.sub);
+        }
+
+        fetchUser();
+    }, [])
     const onAttachmentClicked = () => {
         // Attachments
     }
@@ -21,12 +40,25 @@ const InputChatBox = () => {
     const onMicrophoneHandler = () => {
         // Microphone
     }
+    const onSendMessage = async () => {
+        try {
+            await API.graphql(graphqlOperation(
+                createMessage, {input: {
+                    content: text,
+                    userID: currentUserID,
+                    chatRoomID: chatRoomID,
+                }}
+            ))
+        } catch (error) {
+            console.log(error);
+        }
+    }
     const onSubmitClicked = () => {
         if(isTextEmpty){
             onMicrophoneHandler();
             return;
         }
-        console.log(text);
+        onSendMessage();
 
     }
     return (

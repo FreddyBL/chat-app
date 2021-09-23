@@ -3,6 +3,8 @@ import React from 'react'
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native'
 import { ChatRoom } from '../../types';
 import { useNavigation } from '@react-navigation/core'
+import { graphqlOperation, API, Auth } from 'aws-amplify';
+
 
 export type ChatListItemProps = { 
     chatRoom: ChatRoom;

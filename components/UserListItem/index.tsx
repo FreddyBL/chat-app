@@ -9,6 +9,7 @@ import { User } from '../../types';
 
 import { graphqlOperation, API, Auth } from 'aws-amplify';
 import { createChatRoom, createChatRoomManager } from '../../src/graphql/mutations'
+import { useCurrentUser } from './../../hooks/useCurrentUser';
 
 export type UserListItemProps = { 
     user: User;
@@ -17,6 +18,7 @@ export default function UserListItem(props: UserListItemProps) {
 
     const {user} = props;
     const navigation = useNavigation();
+    const currentUserID = useCurrentUser();
 
     const onUserSelected = async () => {
         try {
@@ -35,8 +37,7 @@ export default function UserListItem(props: UserListItemProps) {
                 await API.graphql(graphqlOperation(
                     createChatRoomManager, {input: {userID: user.id, chatRoomID: roomId}}
                 ));
-                const userInfo = await Auth.currentAuthenticatedUser();
-                const currentUserID = userInfo.attributes.sub;
+
                 await API.graphql(graphqlOperation(
                     createChatRoomManager, {input: {userID: currentUserID, chatRoomID: roomId}}
                 ));

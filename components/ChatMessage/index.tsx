@@ -10,8 +10,7 @@ export type ChatMessageProps = {
 const ChatMessage = (props: ChatMessageProps) => {
 
     const {message, loggedUserId} = props;
-    const isOwnerMessage = message.user.id === loggedUserId;
-    const extraStyle =  isOwnerMessage ? {
+    const extraStyle =  message.user.id !== loggedUserId ? {
         alignSelf: 'flex-start'
     } : { alignSelf: 'flex-end', backgroundColor: '#8dc7b4'};
     return (
