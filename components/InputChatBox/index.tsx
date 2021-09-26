@@ -5,7 +5,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons'
 
 import { graphqlOperation, API, Auth } from 'aws-amplify';
 import { createMessage } from '../../src/graphql/mutations';
-
+import { useCurrentUser } from './../../hooks/useCurrentUser';
 
 const InputChatBox = (props) => {
 
@@ -13,26 +13,17 @@ const InputChatBox = (props) => {
     const {chatRoomID} = props;
 
     const [text, setText] = useState('');
-    const [currentUserID, setCurrentUserID] = useState(null);
-
+    const currentUserID = useCurrentUser();
+    const [showEmoticonDialog, setShowEmoticonDialog] = useState(false);
     const isTextEmpty = (text.length == 0);
     const iconToShow = isTextEmpty ? "microphone" : "send";
 
-
-    useEffect( () => {
-
-        const fetchUser = async () => {
-            const userInfo = await Auth.currentAuthenticatedUser( {bypassCache: true});
-            setCurrentUserID(userInfo.attributes.sub);
-        }
-
-        fetchUser();
-    }, [])
     const onAttachmentClicked = () => {
         // Attachments
     }
     const onEmoticonClicked = () => {
         // Emoticons
+        setShowEmoticonDialog(true);
     }
     const onCameraClicked = () => {
         // Camera
@@ -42,6 +33,7 @@ const InputChatBox = (props) => {
     }
     const onSendMessage = async () => {
         try {
+            setText('')
             await API.graphql(graphqlOperation(
                 createMessage, {input: {
                     content: text,
@@ -49,8 +41,8 @@ const InputChatBox = (props) => {
                     chatRoomID: chatRoomID,
                 }}
             ))
+            
         } catch (error) {
-            console.log(error);
         }
     }
     const onSubmitClicked = () => {
@@ -60,6 +52,12 @@ const InputChatBox = (props) => {
         }
         onSendMessage();
 
+    }
+    const onEmoticonPress = () => {
+        setShowEmoticonDialog(false);
+    }
+    const onBackspacePress = () => {
+        
     }
     return (
         <View style={styles.mainContainer}> 
@@ -81,7 +79,7 @@ const InputChatBox = (props) => {
                 </View>
             </View>
             <TouchableOpacity>
-            <MaterialCommunityIcons onPress={onSubmitClicked} style={styles.microphone} name={iconToShow} size={24} color='white'/>
+                <MaterialCommunityIcons onPress={onSubmitClicked} style={styles.microphone} name={iconToShow} size={24} color='white'/>
             </TouchableOpacity>
         </View>
     )

@@ -8,7 +8,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
-import { ColorSchemeName, Pressable } from 'react-native';
+import { ColorSchemeName, Pressable, TouchableOpacity } from 'react-native';
 import { View, Text } from '../components/Themed';
 import Colors from '../constants/Colors';
 import AppConfig from '../constants/AppConfig';
@@ -26,8 +26,8 @@ import ChatScreen from './../screens/ChatScreen';
 import ChatRoomScreen from '../screens/ChatRoomScreen';
 import ChatRoomHeader from '../components/ChatRoomHeader';
 import PeopleScreen from '../screens/PeopleScreen';
-
-
+import { useState, useEffect } from 'react-native-vector-icons/node_modules/@types/react';
+import {Auth} from "aws-amplify"
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
     <NavigationContainer
@@ -45,6 +45,7 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
+
   return (
     <Stack.Navigator screenOptions={{
       headerStyle: {
@@ -63,8 +64,11 @@ function RootNavigator() {
           title: AppConfig.appName,
           headerRight: () => (
             <View style={{flexDirection: 'row', width: 60, justifyContent: 'space-between', backgroundColor: 'transparent'}}>
-              <Octicons name="search" size={24} color='white'/>
-              <MaterialCommunityIcons name="dots-vertical" size={24} color='white'/>
+              <TouchableOpacity onPress={async () => {
+                await Auth.signOut();
+              }}>
+                <Text style={{color: "white"}}>Logout</Text>
+              </TouchableOpacity>
             </View>
           )
         }} 
@@ -73,12 +77,11 @@ function RootNavigator() {
       <Stack.Screen name="ChatRoomScreen" component={ChatRoomScreen}
       options={({ route }) => (
         {
-          title: route.params.name,
+          title: route.params?.user ? route.params?.user.name : "User",
           headerRight: () => (
             <View style={{flexDirection: 'row', width: 100, justifyContent: 'space-between', backgroundColor: 'transparent'}}>
               <MaterialIcons name='call' size={22} color={'white'}/>
               <FontAwesome5 name='video' size={22} color={'white'}/>
-              <MaterialCommunityIcons name="dots-vertical" size={22} color='white'/>
             </View>
           )
         }
@@ -112,17 +115,8 @@ function BottomTabNavigator() {
     }}
       
     >
-      <ScreensTab.Screen 
-        name="Camera" 
-        component={TabOneScreen} 
-        options={{
-          tabBarIcon: () => <Fontisto name="camera" color='white' size={20}/>,
-          tabBarLabel: () => null,
-        }}
-        />
-      <ScreensTab.Screen name="Rooms" component={ChatScreen} />
+      <ScreensTab.Screen name="Chats" component={ChatScreen} />
       <ScreensTab.Screen name="People" component={PeopleScreen} />
-      <ScreensTab.Screen name="Settings" component={TabTwoScreen} />
     </ScreensTab.Navigator>
   );
 }

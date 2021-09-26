@@ -8,24 +8,27 @@ import { cRooms } from '../dummy_data/chats'
 import { API, graphqlOperation } from 'aws-amplify'
 import { listUsers } from '../src/graphql/queries'
 
+
+import { listUsersExceptID } from '../queries/users'
+import { useCurrentUser } from './../hooks/useCurrentUser';
 export default function PeopleScreen() {
 
+    const currentUserID = useCurrentUser();
     const [users, setUsers] = useState([]);
     useEffect(() => {
         const fetchUsers = async () => {
             try{
                 const fetchedUsers = await API.graphql(graphqlOperation(
-                    listUsers
-                ));
-                console.log(fetchedUsers);
+                    listUsersExceptID
+                , {filterID: currentUserID}));
+
                 setUsers(fetchedUsers.data.listUsers.items);
             }
             catch(e){
-                console.log(e);
             }
         }
         fetchUsers();
-    }, [])
+    }, [currentUserID])
     return (
         <View style={styles.container}>
             <FlatList 

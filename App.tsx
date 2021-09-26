@@ -34,11 +34,9 @@ function App() {
           }));
 
           if(userData.data.getUser){
-            console.log("User is already registered")
           }
           else{
             // Register user
-            console.log("Trying to register: ...");
             const newUser = {
               id,
               name: userInfo.username,
@@ -47,8 +45,6 @@ function App() {
             await API.graphql(graphqlOperation(createUser, 
             {input: newUser}
             ));
-            console.log("User has been registered!");
-
           }
       }
     }

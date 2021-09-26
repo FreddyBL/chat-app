@@ -21,6 +21,7 @@ export default function UserListItem(props: UserListItemProps) {
     const currentUserID = useCurrentUser();
 
     const onUserSelected = async () => {
+
         try {
 
             // 1. Create chat Room
@@ -28,23 +29,24 @@ export default function UserListItem(props: UserListItemProps) {
                 createChatRoom, {input: {}}
             ));
             
-            console.log(newChatRoomData);
 
             if(newChatRoomData){
                 const chatRoom = newChatRoomData.data.createChatRoom;
                 const roomId = chatRoom.id;
                 //Add user to chatRoom
                 await API.graphql(graphqlOperation(
-                    createChatRoomManager, {input: {userID: user.id, chatRoomID: roomId}}
-                ));
-
-                await API.graphql(graphqlOperation(
                     createChatRoomManager, {input: {userID: currentUserID, chatRoomID: roomId}}
                 ));
                 
+                await API.graphql(graphqlOperation(
+                    createChatRoomManager, {input: {userID: user.id, chatRoomID: roomId}}
+                ));
+
+                
                 navigation.navigate('ChatRoomScreen', {
                     id: roomId,
-                    name: "Some Name"
+                    user: user,
+                    name: user.name,
                 })
 
             }

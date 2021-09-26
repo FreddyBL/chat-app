@@ -35,3 +35,23 @@ export const getUser = /* GraphQL */ `
     }
   }
 `;
+
+export const listUsersExceptID = /* GraphQL */ `
+  query ListUsers(
+    $limit: Int
+    $filterID: ID!
+  ) {
+    listUsers(filter: {id: {ne: $filterID}}, limit: $limit) {
+      items {
+        id
+        name
+        email
+        imageUri
+        status
+        group
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`;

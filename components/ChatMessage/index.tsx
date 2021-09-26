@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { Message, User } from '../../types'
-
+import moment from 'moment'
 export type ChatMessageProps = {
     message: Message,
     loggedUserId: string,
@@ -12,11 +12,11 @@ const ChatMessage = (props: ChatMessageProps) => {
     const {message, loggedUserId} = props;
     const extraStyle =  message.user.id !== loggedUserId ? {
         alignSelf: 'flex-start'
-    } : { alignSelf: 'flex-end', backgroundColor: '#8dc7b4'};
+    } : { alignSelf: 'flex-end', backgroundColor: 'rgb(203, 233, 205)'};
     return (
         <View style={[styles.messageBox, extraStyle]}>
             <Text>{message.content}</Text>
-            <Text style={styles.messageCreation}>{message.createdAt}</Text>
+            <Text style={styles.messageCreation}>{moment(message.createdAt).calendar()}</Text>
         </View>
     )
 }

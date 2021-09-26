@@ -50,6 +50,7 @@ export const listUsers = /* GraphQL */ `
     }
   }
 `;
+
 export const getChatRoomManager = /* GraphQL */ `
   query GetChatRoomManager($id: ID!) {
     getChatRoomManager(id: $id) {
@@ -281,6 +282,9 @@ export const listMessages = /* GraphQL */ `
     }
   }
 `;
+
+
+
 export const messagesByChatRoom = /* GraphQL */ `
   query MessagesByChatRoom(
     $chatRoomID: ID
