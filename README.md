@@ -11,5 +11,8 @@ Main Screen          | Chat Screen
 
 ## Features
 
-- Used AWS Amplifuy to handle the authentication
+- Used AWS Amplify to handle the authentication
 - Used Expo and React Native to create the mobile app.
+-	Developed a Chat Application with React Native and AWS Auth from AWS amplify as the authentication service.
+-	Employed GraphQL queries to retrieve information from the database and create records such as messages and users upon registration.
+-	Implemented various API calls to the AWS Amplify backend to retrieve messages, and other information to display on the frontend.
